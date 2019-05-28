@@ -5,7 +5,7 @@ import BraintreeDropin from 'braintree-dropin-react';
 import logo from './logo.svg';
 import './App.css';
 
-const token = 'Your client token';
+const token = 'YOUR CLIENT TOKEN';
 
 const renderSubmitButton = ({ onClick, isDisabled, text }) => {
   return (
@@ -17,7 +17,7 @@ const renderSubmitButton = ({ onClick, isDisabled, text }) => {
 
 class App extends Component {
   handlePaymentMethod = payload => {
-    console.log('payload', payload);
+    console.log('Input for 3D verify card: ', payload);
 
     braintreeWeb.client
       .create({ authorization: token })
@@ -33,7 +33,7 @@ class App extends Component {
           removeFrame: () => (this.popup.innerHTML = ''),
         }),
       )
-      .then(result => console.log(result))
+      .then(result => console.log('Result: ', result))
       .catch(err => console.log(err));
   };
 
