@@ -5,7 +5,7 @@ import BraintreeDropin from 'braintree-dropin-react';
 import logo from './logo.svg';
 import './App.css';
 
-const token = 'YOUR CLIENT TOKEN';
+const token = window.location.search.replace('?token=', '');
 
 const renderSubmitButton = ({ onClick, isDisabled, text }) => {
   return (
@@ -19,22 +19,22 @@ class App extends Component {
   handlePaymentMethod = payload => {
     console.log('Input for 3D verify card: ', payload);
 
-    braintreeWeb.client
-      .create({ authorization: token })
-      .then(client => braintreeWeb.threeDSecure.create({ client }))
-      .then(threeDSecure =>
-        threeDSecure.verifyCard({
-          nonce: payload.nonce,
-          amount: '10.00',
-          addFrame: (err, iframe) => {
-            if (err) console.log(err);
-            else this.popup.appendChild(iframe);
-          },
-          removeFrame: () => (this.popup.innerHTML = ''),
-        }),
-      )
-      .then(result => console.log('Result: ', result))
-      .catch(err => console.log(err));
+    // braintreeWeb.client
+    // .create({ authorization: token })
+    // .then(client => braintreeWeb.threeDSecure.create({ client }))
+    // .then(threeDSecure =>
+    // threeDSecure.verifyCard({
+    // nonce: payload.nonce,
+    // amount: '10.00',
+    // addFrame: (err, iframe) => {
+    // if (err) console.log(err);
+    // else this.popup.appendChild(iframe);
+    // },
+    // removeFrame: () => (this.popup.innerHTML = ''),
+    // }),
+    // )
+    // .then(result => console.log('Result: ', result))
+    // .catch(err => console.log(err));
   };
 
   onCreate = instance => {
@@ -61,6 +61,9 @@ class App extends Component {
           options={{
             locale: 'en_US',
             vaultManager: false,
+            threeDSecure: {
+              amount: '10.00',
+            },
           }}
           authorizationToken={token}
           handlePaymentMethod={this.handlePaymentMethod}
